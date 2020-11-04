@@ -6,12 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.ws.rs.BadRequestException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/entries")
 public class EntryController {
-    private EntryService entryService;
+    private final EntryService entryService;
 
     public EntryController(EntryService entryService) {
         this.entryService = entryService;
@@ -26,6 +27,30 @@ public class EntryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Entry createEntry(@Valid @RequestBody Entry entry) {
+        if (entry.getCheckOut().isBefore(entry.getCheckIn()))
+            throw new BadRequestException();
         return entryService.createEntry(entry);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEntry(@PathVariable long id) {
+        try {
+            entryService.deleteEntry(id);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Entry updateEntry(@PathVariable long id, @Valid @RequestBody Entry entry) {
+        try {
+            entry.setId(id);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return entryService.updateEntry(entry);
     }
 }

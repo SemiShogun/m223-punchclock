@@ -19,19 +19,33 @@
             <input type="time" name="checkOutTime" required>
             <input type="submit" value="Save" />
         </form>
+        <div id="editEntryForm" style="display: none;">
+            <input type="hidden" name="editHiddenId" id="editId"/>
+            <label for="editCheckIn">Check In</label>
+            <input type="date" name="editCheckInDate" id="editCheckIn" required>
+            <input type="time" name="editCheckInTime" required>
+            <label for="editCheckOut">Check Out</label>
+            <input type="date" name="editCheckOutDate" id="editCheckOut" required>
+            <input type="time" name="editCheckOutTime" required>
+            <input type="submit" value="Save" />
+        </div>
         <table>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Check in</th>
                     <th>Check out</th>
+                    <th>Category</th>
+                    <th>Delete</th>
+                    <th>Entry</th>
                 </tr>
             </thead>
-            <tbody id="entryDisplay">
+            <tbody id="entriesData">
                 <tr>
                     <td colspan="3">Loading...</td>
                 </tr>
             </tbody>
         </table>
+
     </body>
 </html>
