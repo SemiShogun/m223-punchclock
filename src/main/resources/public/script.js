@@ -7,7 +7,7 @@ const formatDate = (dateString, timeString) => {
 }
 
 const formatDateToHTML = (timeString) => {
-    return new Date(`${timeString}`).toDateStlring();
+    return new Date(`${timeString}`).toDateString();
 }
 
 const createEntry = (e) => {
