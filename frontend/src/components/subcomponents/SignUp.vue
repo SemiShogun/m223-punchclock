@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import AuthService from "../services/AuthService";
+import AuthService from "../../services/AuthService";
 
 @Component
 export default class Login extends Vue {

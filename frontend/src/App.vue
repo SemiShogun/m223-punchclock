@@ -1,27 +1,17 @@
 <template>
   <div id="app">
-    <h1>PunchClock</h1>
-    <Login />
-    <SignUp />
-    <EntryList />
-    <SignOut />
+    <PunchClock />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Login from "@/components/Login.vue";
-import EntryList from "@/components/EntryList.vue";
-import SignUp from "@/components/SignUp.vue";
-import SignOut from "@/components/SignOut.vue";
+import PunchClock from "@/components/PunchClock.vue";
 
 @Component({
   components: {
-    Login,
-    EntryList,
-    SignUp,
-    SignOut,
-  }
+    PunchClock,
+  },
 })
 export default class App extends Vue {}
 </script>
