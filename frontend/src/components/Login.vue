@@ -17,10 +17,8 @@ export default class Login extends Vue {
   username = "";
   password = "";
 
-  submit() {
-    AuthService.login(this.username, this.password);
-    this.$forceUpdate();
-    console.log("updated");
+  async submit() {
+    await AuthService.login(this.username, this.password);
     window.location.reload();
   }
 }
