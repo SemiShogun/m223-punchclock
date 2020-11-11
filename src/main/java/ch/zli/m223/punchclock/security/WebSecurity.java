@@ -1,6 +1,6 @@
 package ch.zli.m223.punchclock.security;
 
-import ch.zli.m223.punchclock.service.UserDetailsServiceImpl;
+import ch.zli.m223.punchclock.service.UserService;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,11 +17,11 @@ import static ch.zli.m223.punchclock.security.SecurityConstants.SIGN_UP_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private UserDetailsServiceImpl userDetailsService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userDetailsService = userDetailsService;
+    public WebSecurity(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -39,13 +39,33 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
+
+        String[] headers = {"Access-Control-Allow-Headers",
+                "Access-Control-Allow-Origin",
+                "Access-Control-Expose-Headers",
+                "Authorization",
+                "Cache-Control",
+                "Content-Type",
+                "Origin"};
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+            corsConfiguration.applyPermitDefaultValues();
+            for (String header : headers) {
+                    corsConfiguration.addExposedHeader(header);
+                }
+            corsConfiguration.addAllowedMethod("GET");
+            corsConfiguration.addAllowedMethod("POST");
+            corsConfiguration.addAllowedMethod("DELETE");
+            corsConfiguration.addAllowedMethod("PUT");
+            corsConfiguration.addAllowedMethod("OPTIONS");
+
+            source.registerCorsConfiguration("/**", corsConfiguration);
+
+            return source;
     }
 }

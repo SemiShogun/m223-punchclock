@@ -29,6 +29,9 @@ public class Entry {
     @ManyToOne
     private Category category;
 
+    @ManyToOne
+    private Room room;
+
     public Long getId() {
         return id;
     }
