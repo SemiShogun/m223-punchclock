@@ -25,12 +25,17 @@ public class Entry {
     @Column(nullable = false)
     private LocalDateTime checkOut;
 
-//    @JoinColumn(nullable = false)
+    @JoinColumn(nullable = false)
     @ManyToOne
     private Category category;
 
+    @JoinColumn(nullable = false)
     @ManyToOne
     private Room room;
+
+//    @JoinColumn(nullable = false)
+//    @ManyToOne
+//    private ApplicationUser applicationUser;
 
     public Long getId() {
         return id;
@@ -55,4 +60,28 @@ public class Entry {
     public void setCheckOut(LocalDateTime checkOut) {
         this.checkOut = checkOut;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+//    public ApplicationUser getApplicationUser() {
+//        return applicationUser;
+//    }
+//
+//    public void setApplicationUser(ApplicationUser applicationUser) {
+//        this.applicationUser = applicationUser;
+//    }
 }

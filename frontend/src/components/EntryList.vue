@@ -4,7 +4,7 @@
     <ul>
       <li v-for="(entry, index) in entries" :key="index">
         checkIn: {{ entry.checkIn }} checkOut: {{ entry.checkOut }} category:
-        {{ entry.category }} room: {{ entry.room }}
+        {{ entry.category.name }} room: {{ entry.room.name }}
       </li>
     </ul>
   </div>
@@ -13,6 +13,8 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import { Entry } from "../models/Entry";
+import { Room } from "../models/Room";
+import { Category } from "../models/Category";
 import EntryService from "../services/EntryService";
 import CreateEntry from "@/components/subcomponents/CreateEntry.vue";
 
@@ -22,13 +24,14 @@ import CreateEntry from "@/components/subcomponents/CreateEntry.vue";
   },
 })
 export default class EntryList extends Vue {
+  private entries: Array<Entry> = [];
+  private rooms: Array<Room> = [];
+  private categories: Array<Category> = [];
 
-  private entries: Array<Entry>;
-
-  generateEntry(entry: Entry) {
-    EntryService.create(entry)
-      .then(res => {
-        this.retrieveEntries;
+  async generateEntry(entry: Entry) {
+    await EntryService.create(entry)
+      .then((res) => {
+        this.retrieveEntries();
         console.log(res.data);
       })
       .catch((e) => {
@@ -36,18 +39,18 @@ export default class EntryList extends Vue {
       });
   }
 
-  retrieveEntries() {
-    EntryService.getAll()
-      .then(res => {
-        this.entries = res.data;
+  async retrieveEntries() {
+    await EntryService.getAll()
+      .then((res) => {
         console.log(res.data);
+        this.entries = res.data;
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
-  };
+  }
 
-  mounted() {
+  created() {
     this.retrieveEntries();
   }
 }

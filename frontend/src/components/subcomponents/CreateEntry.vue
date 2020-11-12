@@ -3,15 +3,40 @@
     <h1>Create Entry</h1>
     <input type="date" placeholder="checkIn" v-model="checkIn" />
     <input type="time" v-model="checkInTime" />
+    <br />
     <input type="date" placeholder="checkOut" v-model="checkOut" />
     <input type="time" v-model="checkOutTime" />
-    <button @click="createValue">Access</button>
+    <br />
+    <select v-model="room">
+      <option disabled selected>Rooms</option>
+      <option v-for="(room, index) in rooms" :key="index" :value="room">
+        {{ room.name }}
+      </option>
+    </select>
+    <br />
+    <select v-model="category">
+      <option disabled selected>Categories</option>
+      <option
+        v-for="(category, index) in categories"
+        :key="index"
+        :value="category"
+      >
+        {{ category.name }}
+      </option>
+    </select>
+    <br />
+    <button @click="createValue">Generate</button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import { Entry } from "../../models/Entry";
+import { Room } from "../../models/Room";
+import { Category } from "../../models/Category";
+import RoomService from "../../services/RoomService";
+import CategoryService from "../../services/CategoryService";
+import EntryService from "../../services/EntryService";
 
 @Component
 export default class CreateEntry extends Vue {
@@ -19,6 +44,10 @@ export default class CreateEntry extends Vue {
   private checkOut: Date;
   private checkInTime: string;
   private checkOutTime: string;
+  private rooms: Array<Room> = [];
+  private room: Room;
+  private categories: Array<Category> = [];
+  private category: Category;
 
   formatDate(date: Date, time: string): string {
     const _date = new Date(date);
@@ -27,19 +56,57 @@ export default class CreateEntry extends Vue {
     return _date.toISOString();
   }
 
+  async retrieveRooms() {
+    await RoomService.getAll()
+      .then((res) => {
+        console.log(res.data);
+        this.rooms = res.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  async retrieveCategories() {
+    await CategoryService.getAll()
+      .then((res) => {
+        console.log(res.data);
+        this.categories = res.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
   createValue() {
-    const _checkIn = this.formatDate(this.checkIn, this.checkInTime);
-    const _checkOut = this.formatDate(this.checkOut, this.checkOutTime);
+    console.log(this.room)
+    const _checkIn: string = this.formatDate(this.checkIn, this.checkInTime);
+    const _checkOut: string = this.formatDate(this.checkOut, this.checkOutTime);
+    const _room: Room = this.rooms.find((val) => val.name === this.room.name);
+    const _category: Category = this.categories.find(
+      (val) => val.name === this.category.name
+    );
+    console.log(_room);
+    console.log(_category);
     const entry: Entry = {
       checkIn: _checkIn,
-      checkOut: _checkOut
+      checkOut: _checkOut,
+      room: _room,
+      category: _category,
     };
 
     this.generateEntry(entry);
   }
 
   @Emit("addedEntry") generateEntry(entry: Entry) {
-    console.log(`Adding Entry: ${entry.checkIn} + ${entry.checkOut}`);
+    console.log(
+      `Adding Entry: ${entry.checkIn} ${entry.checkOut} ${entry.room} ${entry.category}`
+    );
+  }
+
+  mounted() {
+    this.retrieveRooms();
+    this.retrieveCategories();
   }
 }
 </script>
