@@ -1,4 +1,4 @@
 export interface Entry {
-    checkIn: Date;
-    checkOut: Date;
+    checkIn: string;
+    checkOut: string;
 }

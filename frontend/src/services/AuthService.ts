@@ -11,7 +11,7 @@ class AuthService {
                 'content-type': 'text/json'
             }
         })
-        .then((res) => {
+        .then(res => {
             console.log(res.headers);
             localStorage.setItem('bearer', JSON.stringify(res.headers['authorization'].split('Bearer ')[1]));
             console.log("pass");

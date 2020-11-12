@@ -27,7 +27,7 @@ export default class EntryList extends Vue {
 
   generateEntry(entry: Entry) {
     EntryService.create(entry)
-      .then((res) => {
+      .then(res => {
         this.retrieveEntries;
         console.log(res.data);
       })

@@ -12,39 +12,37 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import { Entry } from "../../models/Entry";
-import * as moment from "moment";
 
 @Component
 export default class CreateEntry extends Vue {
+  private checkIn: Date;
+  private checkOut: Date;
+  private checkInTime: string;
+  private checkOutTime: string;
 
-  checkIn: Date;
-  checkOut: Date;
-  checkInTime: Date;
-  checkOutTime: Date;
-
-  formatDate(date: Date, time: Date): Date {
-    var _checkIn = this.checkIn.toDateString;
-    var _checkOut = this.checkOut.toDateString;
-    return moment.format();
+  formatDate(date: Date, time: string): string {
+    const _date = new Date(date);
+    _date.setHours(parseInt(time.split(":")[0]));
+    _date.setMinutes(parseInt(time.split(":")[1]));
+    return _date.toISOString();
   }
 
   createValue() {
-    var firstCheck = this.formatDate(this.checkIn, this.checkInTime);
+    const _checkIn = this.formatDate(this.checkIn, this.checkInTime);
+    const _checkOut = this.formatDate(this.checkOut, this.checkOutTime);
     const entry: Entry = {
-      checkIn: new Date(`${this.checkIn}T${this.checkInTime}`).toISOString(),
-      checkOut: this.checkOut
-    }
+      checkIn: _checkIn,
+      checkOut: _checkOut
+    };
 
     this.generateEntry(entry);
   }
 
   @Emit("addedEntry") generateEntry(entry: Entry) {
-    console.log(`Adding Entry: ${entry.checkIn} + ${entry.checkOut}`)
+    console.log(`Adding Entry: ${entry.checkIn} + ${entry.checkOut}`);
   }
-  
 }
 </script>
 
 <style>
-
 </style>
