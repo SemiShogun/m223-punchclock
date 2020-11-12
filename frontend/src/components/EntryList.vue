@@ -2,10 +2,15 @@
   <div id="EntryList">
     <CreateRoom @addedRoom="generateRoom" />
     <CreateCategory @addedCategory="generateCategory" />
-    <CreateEntry :rooms="rooms" :categories="categories" @addedEntry="generateEntry" />
+    <CreateEntry
+      :rooms="rooms"
+      :categories="categories"
+      @addedEntry="generateEntry"
+    />
     <p v-for="(entry, index) in entries" :key="index">
       checkIn: {{ entry.checkIn }} checkOut: {{ entry.checkOut }} category:
       {{ entry.category.name }} room: {{ entry.room.name }}
+      <button @click="deleteEntry(entry.id)">Delete</button>
     </p>
   </div>
 </template>
@@ -94,6 +99,17 @@ export default class EntryList extends Vue {
       .then((res) => {
         console.log(res.data);
         this.entries = res.data;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+
+  async deleteEntry(entry: number) {
+    await EntryService.delete(entry)
+      .then((res) => {
+        console.log(res.data);
+        this.retrieveEntries();
       })
       .catch((e) => {
         console.log(e);
