@@ -20,7 +20,6 @@ public class ApplicationUser {
     private String password;
 
     @OneToMany
-    @JsonIgnore
     private List<Entry> entries;
 
     public long getId() {

@@ -44,8 +44,12 @@ export default class CreateEntry extends Vue {
   private checkOut: Date;
   private checkInTime: string;
   private checkOutTime: string;
+
+  @Prop({ default: [] })
   private rooms: Array<Room> = [];
   private room: Room;
+
+  @Prop({ default: [] })
   private categories: Array<Category> = [];
   private category: Category;
 
@@ -56,30 +60,8 @@ export default class CreateEntry extends Vue {
     return _date.toISOString();
   }
 
-  async retrieveRooms() {
-    await RoomService.getAll()
-      .then((res) => {
-        console.log(res.data);
-        this.rooms = res.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  async retrieveCategories() {
-    await CategoryService.getAll()
-      .then((res) => {
-        console.log(res.data);
-        this.categories = res.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
   createValue() {
-    console.log(this.room)
+    console.log(this.room);
     const _checkIn: string = this.formatDate(this.checkIn, this.checkInTime);
     const _checkOut: string = this.formatDate(this.checkOut, this.checkOutTime);
     const _room: Room = this.rooms.find((val) => val.name === this.room.name);
@@ -102,11 +84,6 @@ export default class CreateEntry extends Vue {
     console.log(
       `Adding Entry: ${entry.checkIn} ${entry.checkOut} ${entry.room} ${entry.category}`
     );
-  }
-
-  mounted() {
-    this.retrieveRooms();
-    this.retrieveCategories();
   }
 }
 </script>

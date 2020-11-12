@@ -20,7 +20,6 @@ public class Category {
     private String name;
 
     @OneToMany
-    @JsonIgnore
     private List<Entry> entries;
 
     public String getName() {
