@@ -32,7 +32,11 @@ public class UserController {
     @PostMapping("/sign-up")
     public void signUp(@RequestBody ApplicationUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRole("USER");
+        if (user.getUsername().equals("admin")) {
+            user.setRole("ADMIN");
+        } else {
+            user.setRole("USER");
+        }
         applicationUserRepository.save(user);
     }
 
@@ -51,7 +55,7 @@ public class UserController {
     @GetMapping("/allUsers")
     public List<String> retrieveUsers(Principal user) {
         ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-        if (applicationUser.getRole() != "ADMIN") {
+        if (!applicationUser.getRole().equals("ADMIN")) {
             throw new BadRequestException();
         }
         return applicationUserRepository.findAll().stream().map(ApplicationUser::getUsername).collect(Collectors.toList());
@@ -61,7 +65,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApplicationUser createUser(@RequestBody ApplicationUser applicationUser, Principal user) {
         ApplicationUser _applicationUser = userService.retrieveUserByUsername(user.getName());
-        if (_applicationUser.getRole() != "ADMIN") {
+        if (!_applicationUser.getRole().equals("ADMIN")) {
             throw new BadRequestException();
         }
         return applicationUserRepository.save(applicationUser);
@@ -71,7 +75,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable long id, Principal user) {
         ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-        if (applicationUser.getRole() != "ADMIN") {
+        if (!applicationUser.getRole().equals("ADMIN")) {
             throw new BadRequestException();
         }
         if (applicationUserRepository.findById(id) == null) {
@@ -84,7 +88,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public ApplicationUser updateUser(@PathVariable long id, @Valid @RequestBody ApplicationUser updatedUser, Principal user) {
         ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-        if (applicationUser.getRole() != "ADMIN") {
+        if (!applicationUser.getRole().equals("ADMIN")) {
             throw new BadRequestException();
         }
         if (applicationUserRepository.findById(id) == null) {

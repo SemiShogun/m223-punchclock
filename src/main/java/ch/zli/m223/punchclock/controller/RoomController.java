@@ -42,7 +42,7 @@ public class RoomController {
     public Room createRoom(@Valid @RequestBody Room room, Principal user) {
         try {
             ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-            if (applicationUser.getRole() != "ADMIN") {
+            if (!applicationUser.getRole().equals("ADMIN")) {
                 throw new BadRequestException();
             }
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class RoomController {
     public void deleteRoom(@PathVariable long id, Principal user) {
         try {
             ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-            if (applicationUser.getRole() != "ADMIN") {
+            if (!applicationUser.getRole().equals("ADMIN")) {
                 throw new BadRequestException();
             }
             roomService.deleteRoom(id);
@@ -70,7 +70,7 @@ public class RoomController {
     public Room updateRoom(@PathVariable long id, @Valid @RequestBody Room room, Principal user) {
         try {
             ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-            if (applicationUser.getRole() != "ADMIN") {
+            if (!applicationUser.getRole().equals("ADMIN")) {
                 throw new BadRequestException();
             }
             room.setId(id);

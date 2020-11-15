@@ -2,13 +2,10 @@ package ch.zli.m223.punchclock.controller;
 
 import ch.zli.m223.punchclock.domain.ApplicationUser;
 import ch.zli.m223.punchclock.domain.Category;
-import ch.zli.m223.punchclock.domain.Entry;
 import ch.zli.m223.punchclock.service.CategoryService;
 import ch.zli.m223.punchclock.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
@@ -44,7 +41,7 @@ public class CategoryController {
     public Category createCategory(@Valid @RequestBody Category category, Principal user) {
         try {
             ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-            if (applicationUser.getRole() != "ADMIN") {
+            if (!applicationUser.getRole().equals("ADMIN")) {
                 throw new BadRequestException();
             }
         } catch (Exception e) {
@@ -58,7 +55,7 @@ public class CategoryController {
     public void deleteCategory(@PathVariable long id, Principal user) {
         try {
             ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-            if (applicationUser.getRole() != "ADMIN") {
+            if (!applicationUser.getRole().equals("ADMIN")) {
                 throw new BadRequestException();
             }
             categoryService.deleteCategory(id);
@@ -72,7 +69,7 @@ public class CategoryController {
     public Category updateCategory(@PathVariable long id, @Valid @RequestBody Category category, Principal user) {
         try {
             ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-            if (applicationUser.getRole() != "ADMIN") {
+            if (!applicationUser.getRole().equals("ADMIN")) {
                 throw new BadRequestException();
             }
             category.setId(id);
