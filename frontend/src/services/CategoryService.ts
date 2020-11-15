@@ -7,6 +7,10 @@ class CategoryService {
         return http.get(`/categories`, { headers: AuthHeader() });
     }
 
+    getById(id: number) {
+        return http.get(`/categories/${id}`, { headers: AuthHeader() });
+    }
+
     create(data: any) {
         return http.post(`/categories`, data, { headers: AuthHeader() });
     }

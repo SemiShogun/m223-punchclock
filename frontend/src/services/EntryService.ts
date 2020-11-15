@@ -7,6 +7,10 @@ class EntryService {
         return http.get(`/entries`, { headers: AuthHeader() });
     }
 
+    getById(id: number) {
+        return http.get(`/entries/${id}`, { headers: AuthHeader() });
+    }
+
     create(data: any) {
         return http.post(`/entries`, data, { headers: AuthHeader() });
     }

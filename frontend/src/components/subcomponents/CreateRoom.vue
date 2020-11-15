@@ -9,7 +9,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
-import { Room } from "../../models/Room";
+import { Room } from "../../interfaces/Room";
+import RoomService from "../../services/RoomService";
 
 @Component
 export default class CreateRoom extends Vue {
@@ -19,11 +20,13 @@ export default class CreateRoom extends Vue {
     const _room: Room = {
       name: this.room,
     };
-    this.generateRoom(_room);
-  }
-
-  @Emit("addedRoom") generateRoom(room: Room) {
-    console.log(`Added Room: ${room.name}`);
+    RoomService.create(_room)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }
 }
 </script>

@@ -7,6 +7,10 @@ class RoomService {
         return http.get(`/rooms`, { headers: AuthHeader() });
     }
 
+    getById(id: number) {
+        return http.get(`/rooms/${id}`, { headers: AuthHeader() });
+    }
+
     create(data: any) {
         return http.post(`/rooms`, data, { headers: AuthHeader() });
     }

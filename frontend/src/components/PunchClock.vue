@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { Entry } from "../models/Entry";
+import { Entry } from "../interfaces/Entry";
 import EntryService from "../services/EntryService";
 import Login from "@/components/subcomponents/Login.vue";
 import EntryList from "@/components/EntryList.vue";

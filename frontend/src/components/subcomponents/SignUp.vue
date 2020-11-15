@@ -9,6 +9,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { User } from "../../interfaces/User";
 import AuthService from "../../services/AuthService";
 
 @Component
@@ -17,7 +18,11 @@ export default class Login extends Vue {
   password = "";
 
   submit() {
-    AuthService.register(this.username, this.password);
+    const user: User = {
+      username: this.username,
+      password: this.password
+    }
+    AuthService.register(user);
     window.location.reload();
   }
 }

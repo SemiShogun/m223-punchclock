@@ -9,7 +9,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
-import { Category } from "../../models/Category";
+import { Category } from "../../interfaces/Category";
+import CategoryService from "../../services/CategoryService";
 
 @Component
 export default class CreateCategory extends Vue {
@@ -19,11 +20,13 @@ export default class CreateCategory extends Vue {
     const _category: Category = {
       name: this.category,
     };
-    this.generateCategory(_category);
-  }
-
-  @Emit("addedCategory") generateCategory(category: Category) {
-    console.log(`Added Category: ${category.name}`);
+    CategoryService.create(_category)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }
 }
 </script>

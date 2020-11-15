@@ -1,25 +1,32 @@
 <template>
   <div id="EntryList">
-    <CreateRoom @addedRoom="generateRoom" />
-    <CreateCategory @addedCategory="generateCategory" />
-    <CreateEntry
-      :rooms="rooms"
-      :categories="categories"
-      @addedEntry="generateEntry"
-    />
-    <p v-for="(entry, index) in entries" :key="index">
-      checkIn: {{ entry.checkIn }} checkOut: {{ entry.checkOut }} category:
-      {{ entry.category.name }} room: {{ entry.room.name }}
-      <button @click="deleteEntry(entry.id)">Delete</button>
-    </p>
+    <h1>EntryList</h1>
+    <ul class="list-group">
+      <li
+        class="list-group-item"
+        :class="{ active: index == currentIndex }"
+        v-for="(entry, index) in entries"
+        :key="index"
+        @click="setActiveEntry(entry, index)"
+      >
+        checkIn: {{ entry.checkIn }} checkOut: {{ entry.checkOut }} category:
+        {{ entry.category.name }} room: {{ entry.room.name }}
+        <button @click="deleteEntry(entry.id)">Delete</button>
+      </li>
+    </ul>
+    <div v-if="currentEntry">
+      <h4>Entry</h4>
+      {{ currentEntry.checkIn }}
+      {{ currentEntry.checkOut }}
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
-import { Entry } from "../models/Entry";
-import { Room } from "../models/Room";
-import { Category } from "../models/Category";
+import { Entry } from "../interfaces/Entry";
+import { Room } from "../interfaces/Room";
+import { Category } from "../interfaces/Category";
 import EntryService from "../services/EntryService";
 import CreateEntry from "@/components/subcomponents/CreateEntry.vue";
 import CreateRoom from "@/components/subcomponents/CreateRoom.vue";
@@ -27,72 +34,11 @@ import RoomService from "../services/RoomService";
 import CreateCategory from "@/components/subcomponents/CreateCategory.vue";
 import CategoryService from "../services/CategoryService";
 
-@Component({
-  components: {
-    CreateEntry,
-    CreateRoom,
-    CreateCategory,
-  },
-})
+@Component
 export default class EntryList extends Vue {
   private entries: Array<Entry> = [];
-  private rooms: Array<Room> = [];
-  private categories: Array<Category> = [];
-
-  async generateEntry(entry: Entry) {
-    await EntryService.create(entry)
-      .then((res) => {
-        this.retrieveEntries();
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  async generateRoom(room: Room) {
-    await RoomService.create(room)
-      .then((res) => {
-        console.log(res.data);
-        this.rooms.push(room);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  async generateCategory(category: Category) {
-    await CategoryService.create(category)
-      .then((res) => {
-        console.log(res.data);
-        this.categories.push(category);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  async retrieveRooms() {
-    await RoomService.getAll()
-      .then((res) => {
-        console.log(res.data);
-        this.rooms = res.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  async retrieveCategories() {
-    await CategoryService.getAll()
-      .then((res) => {
-        console.log(res.data);
-        this.categories = res.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
+  private currentEntry = null;
+  private currentIndex = -1;
 
   async retrieveEntries() {
     await EntryService.getAll()
@@ -105,21 +51,30 @@ export default class EntryList extends Vue {
       });
   }
 
+  async refreshList() {
+    this.retrieveEntries();
+    this.currentEntry = null;
+    this.currentIndex = -1;
+  }
+
+  setActiveEntry(entry: Entry, index: number) {
+    this.currentEntry = entry;
+    this.currentIndex = -1;
+  }
+
   async deleteEntry(entry: number) {
     await EntryService.delete(entry)
       .then((res) => {
         console.log(res.data);
-        this.retrieveEntries();
+        this.refreshList();
       })
       .catch((e) => {
         console.log(e);
       });
   }
 
-  created() {
+  mounted() {
     this.retrieveEntries();
-    this.retrieveRooms();
-    this.retrieveCategories();
   }
 }
 </script>

@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts">
-import EntryService from '../../services/EntryService';
 import { Component, Vue } from "vue-property-decorator";
+import { User } from "../../interfaces/User";
 import AuthService from "../../services/AuthService";
 
 @Component
@@ -18,7 +18,11 @@ export default class Login extends Vue {
   password = "";
 
   async submit() {
-    await AuthService.login(this.username, this.password);
+    const user: User = {
+      username: this.username,
+      password: this.password
+    } 
+    await AuthService.login(user);
     window.location.reload();
   }
 }

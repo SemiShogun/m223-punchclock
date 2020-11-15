@@ -31,9 +31,9 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
-import { Entry } from "../../models/Entry";
-import { Room } from "../../models/Room";
-import { Category } from "../../models/Category";
+import { Entry } from "../../interfaces/Entry";
+import { Room } from "../../interfaces/Room";
+import { Category } from "../../interfaces/Category";
 import RoomService from "../../services/RoomService";
 import CategoryService from "../../services/CategoryService";
 import EntryService from "../../services/EntryService";
@@ -45,11 +45,9 @@ export default class CreateEntry extends Vue {
   private checkInTime: string;
   private checkOutTime: string;
 
-  @Prop({ default: [] })
   private rooms: Array<Room> = [];
   private room: Room;
 
-  @Prop({ default: [] })
   private categories: Array<Category> = [];
   private category: Category;
 
@@ -75,15 +73,43 @@ export default class CreateEntry extends Vue {
       checkOut: _checkOut,
       room: _room,
       category: _category,
+      
     };
 
-    this.generateEntry(entry);
+    EntryService.create(entry)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }
 
-  @Emit("addedEntry") generateEntry(entry: Entry) {
-    console.log(
-      `Adding Entry: ${entry.checkIn} ${entry.checkOut} ${entry.room} ${entry.category}`
-    );
+  async retrieveRooms() {
+    await RoomService.getAll()
+      .then((res) => {
+        console.log(res.data);
+        this.rooms = res.data;
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
+
+  async retrieveCategories() {
+    await CategoryService.getAll()
+      .then((res) => {
+        console.log(res.data);
+        this.categories = res.data;
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
+
+  mounted() {
+    this.retrieveRooms();
+    this.retrieveCategories();
   }
 }
 </script>
