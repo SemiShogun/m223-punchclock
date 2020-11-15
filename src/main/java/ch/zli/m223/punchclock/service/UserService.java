@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.core.Application;
+
 import static java.util.Collections.emptyList;
 
 @Service
@@ -25,5 +27,13 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new User(applicationUser.getUsername(), applicationUser.getPassword(), emptyList());
+    }
+
+    public ApplicationUser retrieveUserByUsername(String username) throws UsernameNotFoundException {
+        ApplicationUser applicationUser = applicationUserRepository.findByUsername(username);
+        if (applicationUser == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return applicationUser;
     }
 }

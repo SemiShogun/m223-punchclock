@@ -1,10 +1,12 @@
 package ch.zli.m223.punchclock.service;
 
+import ch.zli.m223.punchclock.domain.Category;
 import ch.zli.m223.punchclock.domain.Room;
 import ch.zli.m223.punchclock.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -20,6 +22,10 @@ public class RoomService {
 
     public List<Room> findAll() {
         return roomRepository.findAll();
+    }
+
+    public Optional<Room> findRoom(long id) {
+        return roomRepository.findById(id);
     }
 
     public void deleteRoom(long id) {

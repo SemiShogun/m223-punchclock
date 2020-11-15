@@ -33,9 +33,9 @@ public class Entry {
     @ManyToOne
     private Room room;
 
-//    @JoinColumn(nullable = false)
-//    @ManyToOne
-//    private ApplicationUser applicationUser;
+    @JoinColumn(nullable = false)
+    @ManyToOne
+    private ApplicationUser applicationUser;
 
     public Long getId() {
         return id;

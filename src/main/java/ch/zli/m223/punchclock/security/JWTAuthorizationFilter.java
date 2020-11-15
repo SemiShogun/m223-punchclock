@@ -1,5 +1,7 @@
 package ch.zli.m223.punchclock.security;
 
+import ch.zli.m223.punchclock.domain.ApplicationUser;
+import ch.zli.m223.punchclock.repository.ApplicationUserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import static ch.zli.m223.punchclock.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+
+    private ApplicationUserRepository applicationUserRepository;
 
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);

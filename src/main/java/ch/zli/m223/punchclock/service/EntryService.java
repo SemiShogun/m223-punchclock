@@ -5,6 +5,7 @@ import ch.zli.m223.punchclock.repository.EntryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EntryService {
@@ -20,6 +21,10 @@ public class EntryService {
 
     public List<Entry> findAll() {
         return entryRepository.findAll();
+    }
+
+    public Optional<Entry> findEntry(long id) {
+        return entryRepository.findById(id);
     }
 
     public void deleteEntry(long id) {

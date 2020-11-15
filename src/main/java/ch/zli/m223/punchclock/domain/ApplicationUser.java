@@ -1,6 +1,5 @@
 package ch.zli.m223.punchclock.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -15,9 +14,11 @@ public class ApplicationUser {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @JsonIgnore
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String role;
 
     @OneToMany
     private List<Entry> entries;
@@ -30,7 +31,6 @@ public class ApplicationUser {
         return username;
     }
 
-    @JsonProperty
     public void setUsername(String username) {
         this.username = username;
     }
@@ -45,6 +45,14 @@ public class ApplicationUser {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public List<Entry> getEntries() {

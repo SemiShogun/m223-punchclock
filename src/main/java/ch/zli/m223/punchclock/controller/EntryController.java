@@ -1,13 +1,17 @@
 package ch.zli.m223.punchclock.controller;
 
+import ch.zli.m223.punchclock.domain.ApplicationUser;
 import ch.zli.m223.punchclock.domain.Entry;
 import ch.zli.m223.punchclock.service.EntryService;
+import ch.zli.m223.punchclock.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/entries")
@@ -22,6 +26,12 @@ public class EntryController {
     @ResponseStatus(HttpStatus.OK)
     public List<Entry> getAllEntries() {
         return entryService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Entry> getEntry(@PathVariable long id) {
+        return entryService.findEntry(id);
     }
 
     @PostMapping
