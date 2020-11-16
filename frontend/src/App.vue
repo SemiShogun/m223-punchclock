@@ -102,16 +102,4 @@ export default class App extends Vue {
   color: #2c3e50;
 }
 
-#navbarSupportedContent {
-  text-align: center;
-  display: block !important;
-}
-
-#navbarSupportedContent ul.navbar-nav {
-  display: block !important;
-}
-
-#navbarSupportedContent ul.navbar-nav li {
-  display: inline-block;
-}
 </style>

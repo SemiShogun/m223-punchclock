@@ -46,11 +46,11 @@ public class UserController {
         return userService.retrieveUserByUsername(user.getName());
     }
 
-//    @GetMapping("/role")
-//    public String role(Principal user) {
-//        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-//        return applicationUser.getRole();
-//    }
+    @GetMapping("/role")
+    public String role(Principal user) {
+        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
+        return applicationUser.getRole();
+    }
 //
 //    @GetMapping("/username")
 //    public String getCurrentUsername(Principal user) {
