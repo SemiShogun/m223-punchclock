@@ -30,9 +30,10 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
+    @ResponseStatus(HttpStatus.OK)
     public void signUp(@RequestBody ApplicationUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        if (user.getUsername().equals("admin")) {
+        if (user.getUsername().toLowerCase().equals("admin")) {
             user.setRole("ADMIN");
         } else {
             user.setRole("USER");
@@ -40,17 +41,22 @@ public class UserController {
         applicationUserRepository.save(user);
     }
 
-    @GetMapping("/role")
-    public String role(Principal user) {
-        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-        return applicationUser.getRole();
+    @GetMapping("/currentUser")
+    public ApplicationUser getCurrentUser(Principal user) {
+        return userService.retrieveUserByUsername(user.getName());
     }
 
-    @GetMapping("/username")
-    public String getCurrentUser(Principal user) {
-        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-        return applicationUser.getUsername();
-    }
+//    @GetMapping("/role")
+//    public String role(Principal user) {
+//        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
+//        return applicationUser.getRole();
+//    }
+//
+//    @GetMapping("/username")
+//    public String getCurrentUsername(Principal user) {
+//        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
+//        return applicationUser.getUsername();
+//    }
 
     @GetMapping("/allUsers")
     public List<String> retrieveUsers(Principal user) {

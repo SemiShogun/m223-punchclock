@@ -77,11 +77,11 @@ public class Entry {
         this.room = room;
     }
 
-//    public ApplicationUser getApplicationUser() {
-//        return applicationUser;
-//    }
-//
-//    public void setApplicationUser(ApplicationUser applicationUser) {
-//        this.applicationUser = applicationUser;
-//    }
+    public ApplicationUser getApplicationUser() {
+        return applicationUser;
+    }
+
+    public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
+    }
 }

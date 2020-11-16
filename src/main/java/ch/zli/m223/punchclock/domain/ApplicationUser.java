@@ -1,7 +1,5 @@
 package ch.zli.m223.punchclock.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 import javax.persistence.*;
 

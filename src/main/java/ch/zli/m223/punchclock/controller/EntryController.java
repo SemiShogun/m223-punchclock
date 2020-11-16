@@ -17,9 +17,11 @@ import java.util.Optional;
 @RequestMapping("/entries")
 public class EntryController {
     private final EntryService entryService;
+    private final UserService userService;
 
-    public EntryController(EntryService entryService) {
+    public EntryController(EntryService entryService, UserService userService) {
         this.entryService = entryService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -36,9 +38,11 @@ public class EntryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Entry createEntry(@Valid @RequestBody Entry entry) {
+    public Entry createEntry(@Valid @RequestBody Entry entry, Principal user) {
         if (entry.getCheckOut().isBefore(entry.getCheckIn()))
             throw new BadRequestException();
+        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
+        entry.setApplicationUser(applicationUser);
         return entryService.createEntry(entry);
     }
 
