@@ -106,7 +106,6 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from "vue-property-decorator";
 import { Room } from "../interfaces/Room";
-import AuthService from "../services/AuthService";
 import RoomService from "../services/RoomService";
 import CreateRoom from "@/components/subcomponents/CreateRoom.vue";
 

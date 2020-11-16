@@ -45,6 +45,11 @@ const routes: Array<RouteConfig> = [
     name: "add",
     component: () => import("../components/CategoryList.vue"),
   },
+  {
+    path: "/user",
+    name: "userinfo",
+    component: () => import("../components/UserList.vue"),
+  },
 ];
 
 const router = new VueRouter({

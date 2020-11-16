@@ -1,7 +1,7 @@
 <template>
   <div id="Login">
     <h1>Log Out</h1>
-    <button @click="submit()">Log Out</button>
+    <button type="submit" class="btn btn-primary" @click="submit()">Log Out</button>
   </div>
 </template>
 

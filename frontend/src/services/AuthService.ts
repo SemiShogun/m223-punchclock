@@ -21,6 +21,7 @@ class AuthService {
   }
 
   getCurrentUser() {
+    console.log("Called");
     return http.get(`/users/currentUser`, { headers: AuthHeader() });
   }
 

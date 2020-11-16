@@ -1,9 +1,23 @@
 <template>
   <div id="Login">
     <h1>Login</h1>
-    <input type="text" placeholder="Username" v-model="username" />
-    <input type="text" placeholder="Password" v-model="password" />
-    <button @click="submit()">Login</button>
+    <label for="username">Username</label>
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      placeholder="Username"
+      v-model="username"
+    />
+    <label for="Pass">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="Pass"
+      placeholder="Password"
+      v-model="password"
+    />
+    <button type="submit" class="btn btn-primary" @click="submit()">Login</button>
   </div>
 </template>
 

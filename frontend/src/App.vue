@@ -20,16 +20,25 @@
             </div>
           </li>
           <li class="nav-item">
-            <div v-if="role === 'USER' || role === 'ADMIN'">
-              <a href="/logout" class="nav-link">Logout</a>
+            <div v-if="role != 'USER' && role != 'ADMIN'">
+              <a href="/register" class="nav-link">Register</a>
             </div>
-          </li>
-          <li class="nav-item">
-            <a href="/register" class="nav-link">Register</a>
           </li>
           <li class="nav-item">
             <div v-if="role != 'USER' && role != 'ADMIN'">
               <a href="/login" class="nav-link">Login</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div v-if="role === 'USER' || role === 'ADMIN'">
+              <a href="/user" class="nav-link">User Info</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div v-if="role === 'USER' || role === 'ADMIN'">
+              <button type="submit" class="btn btn-primary" @click="submit()">
+                Log Out
+              </button>
             </div>
           </li>
         </div>
@@ -71,6 +80,11 @@ export default class App extends Vue {
     } else {
       this.role = "";
     }
+  }
+
+  submit() {
+    AuthService.logout();
+    window.location.reload();
   }
 
   async mounted() {

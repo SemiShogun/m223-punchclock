@@ -124,7 +124,7 @@ export default class CategoryList extends Vue {
   private categoryClicked = false;
 
   // Edit Form states
-  private category: string;
+  private category!: string;
 
   async updateValue() {
     const _category: Category = {
