@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
 import java.security.Principal;
@@ -36,6 +39,8 @@ public class UserController {
     private ApplicationUserRepository applicationUserRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserService userService;
+    private EntityManagerFactory emfactory;
+    private EntityManager em = emfactory.createEntityManager();
 
     public UserController(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder bCryptPasswordEncoder, UserService userService) {
         this.applicationUserRepository = applicationUserRepository;
@@ -69,10 +74,12 @@ public class UserController {
     @GetMapping("/allUsers")
     public List<String> retrieveUsers(Principal user) {
         ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
+//        List<String> values = (List<String>) em.createQuery("SELECT c FROM APPLICATION_USER c");
         if (!applicationUser.getRole().equals("ADMIN")) {
             throw new BadRequestException();
         }
         return applicationUserRepository.findAll().stream().map(ApplicationUser::getUsername).collect(Collectors.toList());
+//        return values;
     }
 
     @PostMapping
