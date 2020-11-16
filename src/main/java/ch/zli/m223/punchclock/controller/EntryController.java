@@ -13,6 +13,19 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * EntryController.java
+ *
+ * @author jlam
+ * @version 16.11.2020
+ *
+ * EntryController allows the user to gain full CRUD functionality for
+ * creating, reading, updating and deleting Entries.
+ *
+ * Entries basically define every single saved time that the user has saved.
+ * Each user has their own entries.
+ * Entries also include the category, room and applicationuser.
+ * */
 @RestController
 @RequestMapping("/entries")
 public class EntryController {

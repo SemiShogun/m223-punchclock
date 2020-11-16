@@ -13,6 +13,19 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * CategoryController.java
+ *
+ * @author jlam
+ * @version 16.11.2020
+ *
+ * CategoryController allows the user to gain full CRUD functionality for
+ * creating, reading, updating and deleting categories.
+ *
+ * An example for an category would be: Programming
+ *
+ * I've added categories to give the user a better idea of what types of entries one can define.
+ */
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {

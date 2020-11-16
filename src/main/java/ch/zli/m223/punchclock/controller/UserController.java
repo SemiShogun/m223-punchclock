@@ -15,6 +15,20 @@ import java.security.Principal;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * UserController.java
+ *
+ * @author jlam
+ * @version 16.11.2020
+ *
+ * UserController allows the user to gain full CRUD functionality for
+ * creating, reading, updating and deleting users.
+ *
+ * An example for a user would be: username: Max Muster, password: 1234
+ *
+ * I've added users so that everyone can save their own entries, making it a multi-user
+ * application with authentication/authorization functionalities.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -51,12 +65,6 @@ public class UserController {
         ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
         return applicationUser.getRole();
     }
-//
-//    @GetMapping("/username")
-//    public String getCurrentUsername(Principal user) {
-//        ApplicationUser applicationUser = userService.retrieveUserByUsername(user.getName());
-//        return applicationUser.getUsername();
-//    }
 
     @GetMapping("/allUsers")
     public List<String> retrieveUsers(Principal user) {

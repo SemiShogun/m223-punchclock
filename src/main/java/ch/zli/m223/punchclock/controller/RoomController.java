@@ -14,6 +14,19 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * RoomController.java
+ *
+ * @author jlam
+ * @version 16.11.2020
+ *
+ * RoomController allows the user to gain full CRUD functionality for
+ * creating, reading, updating and deleting rooms.
+ *
+ * An example for an category would be: KR Purple
+ *
+ * I've added rooms to tell the user where they've saved what time.
+ */
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
