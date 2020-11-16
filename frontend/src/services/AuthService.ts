@@ -1,17 +1,14 @@
-import { User } from "@/models/User";
+import { User } from '@/interfaces/User';
 import http from "../http";
 import AuthHeader from "./AuthHeader";
 
 class AuthService {
-  login(user: User) {
-    return http.post(`/login`, user, { headers: AuthHeader() }).then((res) => {
-      console.log(res.headers);
+  login(username: string, password: string) {
+    return http.post(`/login`, { username, password }, { headers: AuthHeader() }).then((res) => {
       localStorage.setItem(
         "bearer",
         JSON.stringify(res.headers["authorization"].split("Bearer ")[1])
       );
-      console.log("pass");
-      console.log(localStorage.getItem("bearer"));
     });
   }
 
@@ -19,8 +16,12 @@ class AuthService {
     localStorage.removeItem("bearer");
   }
 
-  register(user: User) {
-    return http.post(`/users/sign-up`, user, { headers: AuthHeader() });
+  register(username: string, password: string) {
+    return http.post(`/users/sign-up`, { username, password });
+  }
+
+  getCurrentUser() {
+    return http.get(`/users/currentUser`, { headers: AuthHeader() });
   }
 
   getRole() {

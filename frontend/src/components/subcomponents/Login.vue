@@ -14,15 +14,13 @@ import AuthService from "../../services/AuthService";
 
 @Component
 export default class Login extends Vue {
-  username = "";
-  password = "";
+  private username = "";
+  private password = "";
 
   async submit() {
-    const user: User = {
-      username: this.username,
-      password: this.password
-    } 
-    await AuthService.login(user);
+    const _username = this.username;
+    const _password = this.password;
+    await AuthService.login(_username, _password);
     window.location.reload();
   }
 }

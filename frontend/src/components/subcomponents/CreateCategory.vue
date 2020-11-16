@@ -1,9 +1,37 @@
 <template>
   <div id="CreateCategory">
-    <h1>Create Category</h1>
-    <input type="text" placeholder="Category" v-model="category" />
-    <br />
-    <button @click="createValue">Generate</button>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Create Category</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="category">Category</label>
+          <input
+            type="text"
+            class="form-control"
+            id="category"
+            v-model="category"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" @click="createValue">
+          Save changes
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,17 +44,22 @@ import CategoryService from "../../services/CategoryService";
 export default class CreateCategory extends Vue {
   private category: string;
 
-  createValue() {
+  async createValue() {
     const _category: Category = {
       name: this.category,
     };
-    CategoryService.create(_category)
+    await CategoryService.create(_category)
       .then((res) => {
         console.log(res.data);
+        this.generateCategory();
       })
       .catch((e) => {
         console.error(e);
       });
+  }
+
+  @Emit("addedCategory") generateCategory() {
+    console.log(`Added Category`);
   }
 }
 </script>

@@ -10,11 +10,6 @@ const routes: Array<RouteConfig> = [
     name: "All punchclocks",
     component: () => import("../components/EntryList.vue"),
   },
-  // {
-  //     path: "/punchclock/:id",
-  //     name: "punchclock-details",
-  //     component: () => import("../components/subcomponents/Login.vue")
-  // },
   {
     path: "/login",
     name: "Login",
@@ -24,6 +19,11 @@ const routes: Array<RouteConfig> = [
     path: "/logout",
     name: "Logout",
     component: () => import("../components/subcomponents/SignOut.vue"),
+  },
+  {
+    path: "/entries/new",
+    name: "Create Entry",
+    component: () => import("../components/subcomponents/CreateEntry.vue"),
   },
   {
     path: "/register",
@@ -36,19 +36,14 @@ const routes: Array<RouteConfig> = [
     component: () => import("../components/subcomponents/SignOut.vue"),
   },
   {
-    path: "/entry/add",
+    path: "/room",
     name: "add",
-    component: () => import("../components/subcomponents/CreateEntry.vue"),
+    component: () => import("../components/RoomList.vue"),
   },
   {
-    path: "/room/add",
+    path: "/category",
     name: "add",
-    component: () => import("../components/subcomponents/CreateRoom.vue"),
-  },
-  {
-    path: "/category/add",
-    name: "add",
-    component: () => import("../components/subcomponents/CreateCategory.vue"),
+    component: () => import("../components/CategoryList.vue"),
   },
 ];
 

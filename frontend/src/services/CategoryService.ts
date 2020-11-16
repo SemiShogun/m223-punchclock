@@ -15,11 +15,11 @@ class CategoryService {
         return http.post(`/categories`, data, { headers: AuthHeader() });
     }
 
-    update(id: string, data: any) {
+    update(id: number, data: any) {
         return http.put(`/categories/${id}`, data, { headers: AuthHeader() });
     }
 
-    delete(id: string) {
+    delete(id: number) {
         return http.delete(`/categories/${id}`, { headers: AuthHeader() });
     }
 }

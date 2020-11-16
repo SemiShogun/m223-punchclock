@@ -74,7 +74,41 @@ export default class EntryDetails extends Vue {
     private message: string = "";
 
     async getEntry(id: number) {
+      EntryService.getById(id)
+      .then(res => {
+        this.currentEntry = res.data;
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }
 
+    updateEntry() {
+      const id = this.currentEntry.id;
+      EntryService.update(id, this.currentEntry)
+      .then(res => {
+        console.log(res.data);
+        this.message = "Entry updated successfully!";
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }
+
+    deleteEntry() {
+      EntryService.delete(this.currentEntry.id)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    }
+
+    mounted() {
+      this.message = "";
+      this.getEntry(this.)
     }
 }
 </script>

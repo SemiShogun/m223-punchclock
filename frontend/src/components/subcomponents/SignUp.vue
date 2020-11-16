@@ -9,20 +9,15 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { User } from "../../interfaces/User";
 import AuthService from "../../services/AuthService";
 
 @Component
-export default class Login extends Vue {
-  username = "";
-  password = "";
+export default class SignUp extends Vue {
+  private username = "";
+  private password = "";
 
-  submit() {
-    const user: User = {
-      username: this.username,
-      password: this.password
-    }
-    AuthService.register(user);
+  async submit() {
+    await AuthService.register(this.username, this.password);
     window.location.reload();
   }
 }
